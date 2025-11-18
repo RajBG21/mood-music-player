@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+
+{% block title %}Log Mood{% endblock %}
+
+{% block content %}
+    <div class="row justify-content-center mt-4">
+        <div class="col-md-6">
+
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="mb-4 text-center">How are you feeling today?</h2>
+
+                    <form action="/mood" method="post">
+
+                        <label class="form-label">Select your mood:</label>
+                        <select class="form-select mb-3" name="mood" required>
+                            <option disabled selected>Choose mood...</option>
+                            <option value="happy">Happy</option>
+                            <option value="sad">Sad</option>
+                            <option value="calm">Calm</option>
+                            <option value="energetic">Energetic</option>
+                            <option value="stressed">Stressed</option>
+                        </select>
+
+                        <label for="note" class="form-label">Optional note:</label>
+                        <textarea id="note" name="note" class="form-control mb-3" placeholder="Write something..."></textarea>
+
+                        <button class="btn btn-primary w-100" type="submit">Save Mood</button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

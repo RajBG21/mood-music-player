@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <h2 class="mb-4 text-center">Your Mood Dashboard</h2>
+
+    {% if not mood_data %}
+        <p class="text-center text-muted">No mood logs yet. <a href="/mood">Log your first mood</a></p>
+    {% else %}
+
+        <div class="row mb-4">
+            <div class="col-md-8 mx-auto">
+                <div class="card shadow-sm p-3">
+                    <h5 class="text-center">Mood Over Time</h5>
+                    <canvas id="moodLineChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm p-3">
+                    <h5 class="text-center">Mood Frequency</h5>
+                    <canvas id="moodPieChart"></canvas>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card shadow-sm p-3">
+                    <h5 class="text-center">Recent Mood Entries</h5>
+
+                    <ul class="list-group">
+                        {% for mood in recent %}
+                            <li class="list-group-item d-flex justify-content-between">
+                                <span class="text-capitalize">{{ mood.mood }}</span>
+                                <span class="text-muted">{{ mood.timestamp }}</span>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block scripts %}
+<!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const moodLabels = {
+            {
+                labels | tojson
+            }
+        };
+        const moodValues = {
+            {
+                values | tojson
+            }
+        };
+        const freqLabels = {
+            {
+                freq_labels | tojson
+            }
+        };
+        const freqValues = {
+            {
+                freq_values | tojson
+            }
+        };
+
+    // Line chart
+        new Chart(document.getElementById('moodLineChart'), {
+            type: 'line',
+            data: {
+                labels: moodLabels,
+                datasets: [{
+                    label: 'Mood Score',
+                    data: moodValues,
+                    borderWidth: 2
+                }]
+            }
+        });
+
+    // Pie chart
+        new Chart(document.getElementById('moodPieChart'), {
+            type: 'pie',
+            data: {
+                labels: freqLabels,
+                datasets: [{
+                    data: freqValues
+                }]
+            }
+        });
+    </script>
+{% endblock %}
