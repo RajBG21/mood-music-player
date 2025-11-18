@@ -3,9 +3,17 @@ from dotenv import load_dotenv
 from flask import Flask, render_template, request, redirect, session, flash
 from flask_session import Session
 from werkzeug.security import generate_password_hash, check_password_hash
-from cs50 import SQL
 from datetime import datetime
 from spotify import get_tracks_for_mood
+import sqlite3
+
+def get_db():
+    conn = sqlite3.connect("moods.db", check_same_thread=False)
+    conn.row_factory = sqlite3.Row
+    return conn
+
+db = get_db()
+
 
 load_dotenv()
 
